@@ -50,6 +50,7 @@ def check_manifest(manifest):
     # XXX sha256 is a valid sha256?
     # XXX url is a reachable url?
     # XXX bug exists in bugzilla?
+    pass
 
 
 @memoize
