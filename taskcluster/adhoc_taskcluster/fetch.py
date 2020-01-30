@@ -88,6 +88,15 @@ FETCH_SCHEMA = Schema({
 })
 
 transforms = TransformSequence()
+
+
+@transforms.add
+def from_manifests(config, jobs):
+    for job in jobs:
+        # XXX url, sha256, size, optional gpg-signature from manifest dir
+        yield job
+
+
 transforms.add_validate(FETCH_SCHEMA)
 
 

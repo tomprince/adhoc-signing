@@ -15,6 +15,7 @@ def register(graph_config):
     _import_modules([
         "fetch",
         "routes",
+        "signing_manifest",
         "worker_types",
     ])
 

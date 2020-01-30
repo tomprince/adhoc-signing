@@ -11,3 +11,5 @@ transforms:
 
 unsigned-artifact:
     description: 'Unsigned artifact'
+    fetch:
+        type: static-url
