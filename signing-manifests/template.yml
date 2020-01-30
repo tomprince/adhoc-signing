@@ -2,6 +2,8 @@
 # This schema will likely change over time
 url: https://evil.com/foo/bar.exe
 bug: 12345
+signing-product: foopy
+signing-cert-level: dep
 signing-formats: ["gpg"]  # We may need to explicitly say firefox-release-gpg ?
 sha256: abcd12345
 filesize: 12345
