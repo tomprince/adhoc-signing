@@ -27,6 +27,7 @@ from taskgraph.util.cached_tasks import (
 from taskgraph.util.schema import (
     Schema,
 )
+from adhoc_taskgraph.signing_manifest import get_manifest
 
 
 CACHE_TYPE = 'content.v1'
@@ -93,8 +94,17 @@ transforms = TransformSequence()
 @transforms.add
 def from_manifests(config, jobs):
     for job in jobs:
-        # XXX url, sha256, size, optional gpg-signature from manifest dir
-        yield job
+        manifests = get_manifest()
+        for manifest in manifests:
+            task = deepcopy(job)
+            fetch = task.setdefault("fetch", {})
+            fetch["url"] = manifest["url"]
+            fetch["sha256"] = manifest["sha256"]
+            fetch["size"] = manifest["filesize"]
+            for k in ("gpg-signature", "artifact-name"):
+                if manifest.get(k):
+                    fetch[k] = manifest[k]
+            yield task
 
 
 transforms.add_validate(FETCH_SCHEMA)

@@ -38,6 +38,8 @@ base_schema = Schema(
         Required("filesize"): int,
         Required("requestor"): basestring,
         Required("reason"): basestring,
+        Optional("gpg-signature"): basestring,
+        Optional("artifact-name"): basestring,
         Required("manifest_name"): basestring,
     }
 )
@@ -53,10 +55,11 @@ def check_manifest(manifest):
 @memoize
 def get_manifest():
     manifest_paths = glob.glob(os.path.join(MANIFEST_DIR, "*.yml"))
-    rw_manifest = {}
+    all_manifests = []
     for path in manifest_paths:
-        rw_manifest[path] = yaml.load_yaml(path)
-        rw_manifest[path]["manifest_name"] = os.path.basename(path)
-    validate_schema(base_schema, deepcopy(rw_manifest), "Invalid manifest:")
-    check_manifest(deepcopy(rw_manifest))
-    return ReadOnlyDict(rw_manifest)
+        rw_manifest = yaml.load_yaml(path)
+        rw_manifest["manifest_name"] = os.path.basename(path)
+        validate_schema(base_schema, deepcopy(rw_manifest), "Invalid manifest:")
+        check_manifest(deepcopy(rw_manifest))
+        all_manifests.append(ReadOnlyDict(rw_manifest))
+    return tuple(all_manifests)
