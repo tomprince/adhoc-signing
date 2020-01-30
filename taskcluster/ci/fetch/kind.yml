@@ -9,7 +9,8 @@ transforms:
     - taskgraph.transforms.job:transforms
     - taskgraph.transforms.task:transforms
 
-unsigned-artifact:
-    description: 'Unsigned artifact'
-    fetch:
-        type: static-url
+jobs:
+    unsigned-artifact:
+        description: 'Unsigned artifact'
+        fetch:
+            type: static-url

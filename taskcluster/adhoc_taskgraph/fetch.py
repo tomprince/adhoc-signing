@@ -10,6 +10,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 import re
 
+from copy import deepcopy
 from voluptuous import (
     Any,
     Optional,
@@ -93,8 +94,8 @@ transforms = TransformSequence()
 
 @transforms.add
 def from_manifests(config, jobs):
+    manifests = get_manifest()
     for job in jobs:
-        manifests = get_manifest()
         for manifest in manifests:
             task = deepcopy(job)
             fetch = task.setdefault("fetch", {})
@@ -114,16 +115,7 @@ transforms.add_validate(FETCH_SCHEMA)
 def process_fetch_job(config, jobs):
     # Converts fetch-url entries to the job schema.
     for job in jobs:
-        if 'fetch' not in job:
-            continue
-
-        typ = job['fetch']['type']
-
-        if typ == 'static-url':
-            yield create_fetch_url_task(config, job)
-        else:
-            # validate() should have caught this.
-            assert False
+        yield create_fetch_url_task(config, job)
 
 
 def make_base_task(config, name, description, command):
@@ -141,11 +133,6 @@ def make_base_task(config, name, description, command):
         'expires-after': expires,
         'label': 'fetch-%s' % name,
         'run-on-projects': [],
-        'treeherder': {
-            'kind': 'build',
-            'platform': 'fetch/opt',
-            'tier': 1,
-        },
         'run': {
             'using': 'run-task',
             'checkout': False,
@@ -210,11 +197,11 @@ def create_fetch_url_task(config, job):
     task = make_base_task(config, name, job['description'], command)
     task['worker']['artifacts'] = [{
         'type': 'directory',
-        'name': 'public',
+        'name': 'adhoc',
         'path': '/builds/worker/artifacts',
     }]
     task['worker']['env'] = env
-    task['attributes']['fetch-artifact'] = 'public/%s' % artifact_name
+    task['attributes']['fetch-artifact'] = 'adhoc/%s' % artifact_name
 
     if not taskgraph.fast:
         cache_name = task['label'].replace('{}-'.format(config.kind), '', 1)
