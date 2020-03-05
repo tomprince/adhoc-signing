@@ -201,7 +201,7 @@ def create_fetch_url_task(config, job):
         'path': '/builds/worker/artifacts',
     }]
     task['worker']['env'] = env
-    task['attributes']['fetch-artifact'] = 'adhoc/%s' % artifact_name
+    task['attributes']['fetch-artifact'] = 'releng/adhoc/%s' % artifact_name
 
     if not taskgraph.fast:
         cache_name = task['label'].replace('{}-'.format(config.kind), '', 1)
