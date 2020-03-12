@@ -11,7 +11,9 @@ RUN mkdir /builds && \
 # Declare default working folder
 WORKDIR /builds/worker
 
-RUN apt-get update && \
+# %ARG DOCKER_IMAGE_PACKAGES
+RUN /usr/local/sbin/setup_packages.sh https://firefox-ci-tc.services.mozilla.com $DOCKER_IMAGE_PACKAGES && \
+    apt-get update && \
     apt-get install \
       gnupg \
       bzip2 \

@@ -20,3 +20,5 @@ jobs:
     fetch:
         definition: fetch
         parent: debian10-raw
+        packages:
+            - deb10-python-zstandard
