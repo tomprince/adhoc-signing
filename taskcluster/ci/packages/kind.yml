@@ -10,10 +10,6 @@ transforms:
     - taskgraph.transforms.task:transforms
 
 job-defaults:
-    treeherder:
-        kind: build
-        platform: packages/opt
-        tier: 1
     worker-type: b-linux
     worker:
         max-run-time: 1800
@@ -25,8 +21,6 @@ job-defaults:
 jobs:
     deb10-python-zstandard:
         description: "python-zstandard for Debian buster"
-        treeherder:
-            symbol: Deb10(python-zstandard)
         run:
             using: debian-package
             dist: buster
