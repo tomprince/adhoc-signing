@@ -13,6 +13,7 @@ def register(graph_config):
     the process.
     """
     _import_modules([
+        "debian_package",
         "fetch",
         "routes",
         "signing_manifest",

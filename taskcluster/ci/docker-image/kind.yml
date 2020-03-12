@@ -5,6 +5,9 @@
 
 loader: taskgraph.loader.transform:loader
 
+kind-dependencies:
+    - packages
+
 transforms:
     - taskgraph.transforms.docker_image:transforms
     - taskgraph.transforms.cached_tasks:transforms
