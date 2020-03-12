@@ -20,8 +20,8 @@ RUN apt-get update && \
       python3-zstandard \
       unzip
 
-# %include taskcluster/scripts/run-task
+# %include taskcluster/run-task/run-task
 ADD topsrcdir/taskcluster/run-task/run-task /builds/worker/bin/run-task
 
-# %include taskcluster/scripts/misc/fetch-content
+# %include taskcluster/run-task/fetch-content
 ADD topsrcdir/taskcluster/run-task/fetch-content /builds/worker/bin/fetch-content
