@@ -13,6 +13,8 @@ import os
 import time
 from datetime import datetime
 
+from six import text_type
+
 from taskgraph.config import load_graph_config
 from taskgraph.util.schema import validate_schema
 from taskgraph.util.vcs import calculate_head_rev, get_repo_path, get_repository_type
@@ -28,13 +30,13 @@ MANIFEST_DIR = os.path.join(BASE_DIR, "signing-manifests")
 
 base_schema = Schema(
     {
-        Required("url"): basestring,
+        Required("url"): text_type,
         Required("bug"): int,
         # XXX flesh out these enums
         Required("signing-product"): Any("firefox", "fenix", "fennec", "thunderbird", "xpi", "mpd001"),
         Required("signing-cert-level"): Any("dep", "nightly", "release"),
         Required("signing-formats"): [Any("gpg", "authenticode")],
-        Required("sha256"): basestring,
+        Required("sha256"): text_type,
         Required("filesize"): int,
         Required("requestor"): basestring,
         Required("reason"): basestring,

@@ -1,5 +1,8 @@
-# %ARG DOCKER_IMAGE_PARENT
-FROM $DOCKER_IMAGE_PARENT
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+FROM ubuntu:18.04
 
 ### Add worker user and setup its workspace.
 RUN mkdir /builds && \
@@ -11,19 +14,24 @@ RUN mkdir /builds && \
 # Declare default working folder
 WORKDIR /builds/worker
 
-# %ARG DOCKER_IMAGE_PACKAGES
-RUN /usr/local/sbin/setup_packages.sh https://firefox-ci-tc.services.mozilla.com $DOCKER_IMAGE_PACKAGES && \
-    apt-get update && \
+RUN apt-get update \
     apt-get install \
       gnupg \
       bzip2 \
       git \
       python3-requests \
-      python3-zstandard \
       unzip
 
-# %include taskcluster/run-task/run-task
-ADD topsrcdir/taskcluster/run-task/run-task /builds/worker/bin/run-task
+# %include-run-task
 
-# %include taskcluster/run-task/fetch-content
-ADD topsrcdir/taskcluster/run-task/fetch-content /builds/worker/bin/fetch-content
+ENV SHELL=/bin/bash \
+    HOME=/builds/worker \
+    PATH=/builds/worker/.local/bin:$PATH
+
+
+VOLUME /builds/worker/checkouts
+VOLUME /builds/worker/.cache
+
+
+# run-task expects to run as root
+USER root

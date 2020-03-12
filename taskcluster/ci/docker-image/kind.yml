@@ -5,23 +5,11 @@
 
 loader: taskgraph.loader.transform:loader
 
-kind-dependencies:
-    - packages
-
 transforms:
     - taskgraph.transforms.docker_image:transforms
     - taskgraph.transforms.cached_tasks:transforms
     - taskgraph.transforms.task:transforms
 
 jobs:
-    debian10-raw:
-        definition: debian-raw
-        args:
-            BASE_IMAGE: debian:buster-20191014
-            DIST: buster
-            SNAPSHOT: '20191014T205056Z'
     fetch:
         definition: fetch
-        parent: debian10-raw
-        packages:
-            - deb10-python-zstandard
