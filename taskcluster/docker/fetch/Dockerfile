@@ -24,10 +24,7 @@ RUN /usr/local/sbin/setup_packages.sh $TASKCLUSTER_ROOT_URL $DOCKER_IMAGE_PACKAG
       unzip
 
 # %include taskcluster/scripts/run-task
-ADD topsrcdir/taskcluster/scripts/run-task /builds/worker/bin/run-task
+ADD topsrcdir/taskcluster/run-task/run-task /builds/worker/bin/run-task
 
 # %include taskcluster/scripts/misc/fetch-content
-ADD topsrcdir/taskcluster/scripts/misc/fetch-content /builds/worker/bin/fetch-content
-
-# %include taskcluster/scripts/misc/fetch-chromium.py
-ADD topsrcdir/taskcluster/scripts/misc/fetch-chromium.py /builds/worker/bin/fetch-chromium.py
+ADD topsrcdir/taskcluster/run-task/fetch-content /builds/worker/bin/fetch-content
