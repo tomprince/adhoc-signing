@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 TASKCLUSTER_ROOT_URL=$1
 shift
