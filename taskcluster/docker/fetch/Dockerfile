@@ -12,6 +12,7 @@ RUN mkdir /builds && \
 WORKDIR /builds/worker
 
 # %ARG DOCKER_IMAGE_PACKAGES
+RUN ls -l /usr/local/sbin/setup_packages.sh || ls -l /bin/bash || true
 RUN /usr/local/sbin/setup_packages.sh $DOCKER_IMAGE_PACKAGES && \
     apt-get update && \
     apt-get install \
