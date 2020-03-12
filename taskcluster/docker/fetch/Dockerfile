@@ -11,10 +11,7 @@ RUN mkdir /builds && \
 # Declare default working folder
 WORKDIR /builds/worker
 
-# %ARG TASKCLUSTER_ROOT_URL
-# %ARG DOCKER_IMAGE_PACKAGES
-RUN /usr/local/sbin/setup_packages.sh $TASKCLUSTER_ROOT_URL $DOCKER_IMAGE_PACKAGES && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install \
       gnupg \
       bzip2 \
