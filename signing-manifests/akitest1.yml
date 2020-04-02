@@ -7,6 +7,6 @@ signing-product: firefox
 signing-cert-level: dep
 signing-formats: ["gpg"]  # We may need to explicitly say firefox-release-gpg ?
 sha256: a01721d04235c00b74baecaf18dbed80be90e367058f8fa734122fb45d61faba
-filesize: 8
+filesize: 26
 requestor: Aki Sasaki <asasaki@mozilla.com>
 reason: test
