@@ -9,13 +9,12 @@ import time
 from taskgraph.transforms.task import index_builder
 
 SIGNING_ROUTE_TEMPLATES = [
-    "index.{trust-domain}.v2.{project}.{name}.{variant}.revision.{revision}",
-    "index.{trust-domain}.v2.{project}.{name}.{variant}.{build_date}.latest",
-    "index.{trust-domain}.v2.{project}.{name}.{variant}.latest",
+    "index.{trust-domain}.v2.{project}.{name}.{build_date}.latest",
+    "index.{trust-domain}.v2.{project}.{name}.latest",
 ]
 
 
-def add_signing_indexes(config, task, variant):
+def add_signing_indexes(config, task):
     routes = task.setdefault("routes", [])
 
     if config.params["level"] != "3":
@@ -26,8 +25,6 @@ def add_signing_indexes(config, task, variant):
         "%Y.%m.%d", time.gmtime(config.params["build_date"])
     )
     subs["trust-domain"] = config.graph_config["trust-domain"]
-    subs["revision"] = config.params.get("adhoc_revision") or "unknown"
-    subs["variant"] = variant
     manifest_name =  task.get("extra", {}).get("manifest-name")
     if manifest_name:
         subs["name"] = manifest_name
@@ -36,11 +33,6 @@ def add_signing_indexes(config, task, variant):
     return task
 
 
-@index_builder("dep-signing")
-def add_dep_signing_indexes(config, task):
-    return add_signing_indexes(config, task, "dep-signing")
-
-
-@index_builder("release-signing")
+@index_builder("signing")
 def add_release_signing_indexes(config, task):
-    return add_signing_indexes(config, task, "release-signing")
+    return add_signing_indexes(config, task)

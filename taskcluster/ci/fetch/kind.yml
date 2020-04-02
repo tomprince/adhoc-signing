@@ -12,3 +12,4 @@ transforms:
 
 job-template:
     description: 'Unsigned artifact'
+    artifact-prefix: releng/adhoc

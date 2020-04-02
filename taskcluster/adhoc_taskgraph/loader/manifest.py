@@ -18,7 +18,7 @@ def loader(kind, path, config, params, loaded_tasks):
     """
     job_template = config.get("job-template")
 
-    for manifest in get_manifest():
+    for manifest in get_manifest().values():
         job = {"manifest": manifest}
         if job_template:
             job.update(copy.deepcopy(job_template))
